@@ -9,3 +9,39 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r load_package}
+library(tidyverse)
+```
+
+First read in all file names into a dataframe
+
+```{r filename}
+longidata = tibble(
+  file_name = list.files(path = "./data")
+)
+```
+
+Creat a function to read in each participant's data
+
+```{r}
+read_data = function(path){
+  
+  read_csv(file = path)
+  
+}
+```
+
+Change the current working directory to read in the data of each participant
+
+```{r}
+#longidata$file_name = paste('"./data/', longidata$file_name, '"')
+#setwd("./data") %>% 
+#read_csv(file = "con_01.csv")
+
+longidata$data = map(longidata$file_name, read_csv)
+unnest(longidata)
+```
+
+
+
+
