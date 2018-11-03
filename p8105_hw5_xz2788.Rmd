@@ -21,25 +21,12 @@ longidata = tibble(
 )
 ```
 
-Creat a function to read in each participant's data
+Add in the data of each file
 
 ```{r}
-read_data = function(path){
-  
-  read_csv(file = path)
-  
-}
-```
-
-Change the current working directory to read in the data of each participant
-
-```{r}
-#longidata$file_name = paste('"./data/', longidata$file_name, '"')
-#setwd("./data") %>% 
-#read_csv(file = "con_01.csv")
-
-longidata$data = map(longidata$file_name, read_csv)
-unnest(longidata)
+longidata$file = str_c('./data/',longidata$file_name)
+longidata$data = map(longidata$file, read_csv)
+longidata = unnest(longidata)
 ```
 
 
