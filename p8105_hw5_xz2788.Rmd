@@ -9,6 +9,8 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+Load the necessary package
+
 ```{r load_package}
 library(tidyverse)
 ```
@@ -21,14 +23,38 @@ longidata = tibble(
 )
 ```
 
-Add in the data of each file
+Add in the data of each file to the dataframe and unnest the list
 
-```{r}
+```{r file_data, message=FALSE}
 longidata$file = str_c('./data/',longidata$file_name)
 longidata$data = map(longidata$file, read_csv)
 longidata = unnest(longidata)
 ```
 
+Tidy the dataset
 
+```{r tidy_data}
+longidata$file_name = str_replace(longidata$file_name, ".csv", "")
+longidata = longidata %>% 
+  select(-file) %>% 
+  separate(file_name, into = c("arm", "subject_id"), sep = "_") %>% 
+  gather(key = week, value = observation, week_1:week_8)
+longidata$week = str_replace(longidata$week, "week_", "") %>% as.numeric()
+```
 
+Check the resulting dataset to make sure it's tidy
+
+```{r check_dataset}
+head(longidata)
+str(longidata)
+```
+
+Make the required spaghetti plot
+
+```{r spaghetti_plot}
+longidata$arm_id = str_c(longidata$arm, '_', longidata$subject_id)
+longidata %>% 
+  ggplot(aes(x = week, y = observation)) +
+  geom_line(aes(color = arm_id))
+```
 
