@@ -15,6 +15,8 @@ Load the necessary package
 library(tidyverse)
 ```
 
+## Problem 1
+
 First read in all file names into a dataframe
 
 ```{r filename}
@@ -69,4 +71,11 @@ longidata %>%
   ) +
   theme(legend.position = "bottom")
 ```
+
+Comment : From the sphaghetti plot, the observation data of experimental group are roughly higher than that of control group through 8 weeks and the difference between two groups became larger when time went by. However, we still need to consider the comparability of two groups at the beginning of the experiment and this can't be judged just by this plot.
+
+
+
+
+
 
