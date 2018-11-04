@@ -53,8 +53,18 @@ Make the required spaghetti plot
 
 ```{r spaghetti_plot}
 longidata$arm_id = str_c(longidata$arm, '_', longidata$subject_id)
+#combine the "subject_id" and "arm" to make a new variable for later plotting
+
 longidata %>% 
-  ggplot(aes(x = week, y = observation)) +
-  geom_line(aes(color = arm_id))
+  ggplot(aes(x = week, y = observation, group = arm_id, color = arm)) +
+  geom_line() +
+  theme_bw() +
+  labs(
+    title = "Observations of each subject through time",
+    x = "Week",
+    y = "Observation data",
+    caption = "Data from the longitudinal study"
+  ) +
+  theme(legend.position = "bottom")
 ```
 
