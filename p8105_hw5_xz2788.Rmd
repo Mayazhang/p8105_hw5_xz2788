@@ -131,6 +131,13 @@ broom::tidy(baltimore) %>%
   select(estimate, conf_low, conf_high)
 ```
 
+Therefore, the estimated proportion of unsolved homicides in Baltimore is 64.56% and confidence interval is (0.6276, 0.6632).
+
+### Estimate proportion in each city
+
+```{r prop_city}
+
+```
 
 
 
