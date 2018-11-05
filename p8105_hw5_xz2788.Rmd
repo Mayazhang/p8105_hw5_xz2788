@@ -83,10 +83,33 @@ homicide = read_csv(file = "./homicide-data.csv",
                     col_types = "cccccdcccddc")
 ```
 
-Description of raw data:
+### Description of raw data:
 The "homicide" dataset in total have `r nrow(homicide)` observations and `r ncol(homicide)` variables. Each observation is a homicide. Information includes the age, sex, name, race of the victim, date, city, state and location of the homicides as well as whether the homicide was closed. Except that age and location are numeric variables, others are character variables. Cases were counted as closed without arrest if they were reported by police to be “exceptionally cleared.”
 
+Create a "city_state" variable
 
+```{r create_variable}
+homicide$city_state = str_c(homicide$city, ", ", homicide$state)
+```
 
+### Summarize within cities to get the total number of homicides 
+
+(here using "city" variable to group_by, because the number of distinct cities is 50 which matches the total number of cities and this means there are no any two cities having the same name)
+
+```{r total_homicides}
+homicide %>% 
+  group_by(city) %>% 
+  summarize(n_homicide = n())
+```
+
+### Summarize within cities to get the unsolved cases
+
+```{r num_unsolved}
+homicide %>% 
+  filter(disposition %in% c("Closed without arrest", "Open/No arrest")) %>%
+  group_by(city) %>% 
+  summarize(n_unsolved = n())
+  
+```
 
 
