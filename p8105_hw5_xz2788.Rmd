@@ -112,4 +112,26 @@ homicide %>%
   
 ```
 
+### For Baltimore
+
+```{r esti_prop}
+homicide %>% 
+  filter(city == "Baltimore") %>% 
+  group_by(disposition) %>% 
+  summarize(n = n())
+
+baltimore = prop.test(x = 1825, n = 2827)  
+```
+
+From the summary, there were in total `r 1002 + 152 + 1673` homicides in Baltimore and `r 152 + 1673` were unsolved. Thus I used these two numbers as "x" and "n" to estimate the proportion.
+
+```{r broom_tidy}
+broom::tidy(baltimore) %>% 
+  janitor::clean_names() %>% 
+  select(estimate, conf_low, conf_high)
+```
+
+
+
+
 
